@@ -24,13 +24,13 @@ public class Cliente {
         
         
         System.out.println("==============================================");
-        System.out.println("   BOAS VINDAS AO SIMULADOR DE BATALHAS MEDIEVAIS   ");
+        System.out.println(" BOAS VINDAS AO SIMULADOR DE BATALHAS MEDIEVAIS ");
         System.out.println("==============================================");
         
         while (true) {
-            System.out.println("\n\n\n=== ESCOLHA DE AÇÃO ===");
+            System.out.println("\n\n=== ESCOLHA DE AÇÃO ===");
             System.out.println("Selecione a ação desejada a seguir: ");
-            System.out.println("1. Criar Personagem \n2. Equipar Drop de Inimigo \n3. Listar Status\n4. Simular Duelo (Mediator) \n0. Sair\n");
+            System.out.println("1. Criar Personagem \n2. Equipar Drop de Inimigo \n3. Listar Tropas\n4. Simular Duelo \n0. Sair\n");
             System.out.print("Escolha: ");
             int opcao = leitor.nextInt();
 
@@ -38,7 +38,7 @@ public class Cliente {
 
             switch (opcao) {
                 case 1:
-                    System.out.print("Defina o tipo do seu personagem: \n1. Guerreiro \n2. Mago \n3. Assassino \n4. Paladino): ");
+                    System.out.print("Defina o tipo do seu personagem: \n1. Guerreiro \n2. Mago \n3. Assassino \n4. Paladino:\n Escolha: ");
                     String escolha = leitor.next();
                     String t = escolha;
                     
@@ -51,11 +51,11 @@ public class Cliente {
                        t = escolha.toLowerCase();
                     }
 	                if (t.equals("")) {
-	                    System.out.println("![ERRO] Escolha inválida! Você deve digitar o número (1-4) ou o nome da classe.");
+	                    System.out.println("[!] Escolha inválida! Você deve digitar o número (1-4) ou o nome da classe.");
 	                    break; 
 	                }
 	                if (FlyweightFactory.getPersonagem(t) == null) {
-	                    System.out.println("![ERRO] O tipo '" + t + "' não existe no sistema. Tente novamente.");
+	                    System.out.println("[!] O tipo '" + t + "' não existe no sistema. Tente novamente.");
 	                } else {
 	                    System.out.print("Nome: ");
 	                    String n = leitor.next();
@@ -65,17 +65,56 @@ public class Cliente {
 	                break;
 
                 case 2:
+                    if (arena.isEmpty()) { 
+                        System.out.println("Arena vazia!"); 
+                        break; 
+                    }
                     listar(arena);
-                    System.out.print("Escolha o personagem: ");
+                    System.out.print("Escolha o personagem pelo índice: ");
                     int id = leitor.nextInt();
-                    System.out.println("Drops disponíveis:\n1. Goblin (Botas)\n2. Golem (Armadura)\n3. Dragão (Espada)\n4. Feiticeiro (Mana)");
+
+                    if (id < 0 || id >= arena.size()) {
+                        System.out.println("[!] Índice ultrapassou a quantidade de personagens da arena.");
+                        break;
+                    }
+
+                    System.out.println("Drops disponíveis:\n1. Botas (+5 AGI)\n2. Armadura (+10 DEF)\n3. Espada (+10 ATK)\n4. Manto (+20 MANA)");
+                    System.out.print("Escolha o item: ");
                     int item = leitor.nextInt();
                     
                     Personagem p = arena.get(id);
-                    if (item == 1) arena.set(id, new BotasAgeis(p));
-                    else if (item == 2) arena.set(id, new ArmaduraPedra(p));
-                    else if (item == 3) arena.set(id, new EspadaFlamejante(p));
-                    else if (item == 4) arena.set(id, new MantoSombrio(p));
+                    String descricaoAtual = p.getDescricao();
+                    boolean jaEquipado = false;
+                    String nomeItem = "";
+
+                    if (item == 1) {
+                        nomeItem = "Botas Ágeis";
+                        if (descricaoAtual.contains(nomeItem)) jaEquipado = true;
+                        else arena.set(id, new BotasAgeis(p));
+                    } 
+                    else if (item == 2) {
+                        nomeItem = "Armadura de Pedra";
+                        if (descricaoAtual.contains(nomeItem)) jaEquipado = true;
+                        else arena.set(id, new ArmaduraPedra(p));
+                    } 
+                    else if (item == 3) {
+                        nomeItem = "Espada Flamejante";
+                        if (descricaoAtual.contains(nomeItem)) jaEquipado = true;
+                        else arena.set(id, new EspadaFlamejante(p));
+                    } 
+                    else if (item == 4) {
+                        nomeItem = "Manto Sombrio";
+                        if (descricaoAtual.contains(nomeItem)) jaEquipado = true;
+                        else arena.set(id, new MantoSombrio(p));
+                    }
+
+                    if (jaEquipado) {
+                        System.out.println("![AVISO] O personagem " + p.getNome() + " já possui o item: " + nomeItem);
+                    } else if (!nomeItem.equals("")) {
+                        System.out.println(p.getNome() + "equipóu " + nomeItem + "com sucesso!");
+                    } else {
+                        System.out.println("[!] Opção de item inválida.");
+                    }
                     break;
 
                 case 3:
@@ -88,12 +127,7 @@ public class Cliente {
                     break;
 
                 case 4:
-                    System.out.println("\n[Aguardando o Mediator do Igor...]");
-                    break;
-
-                default:
-                    System.out.println("\n[!] Opção inválida. Tente novamente.");
-                    break;
+                    // Igor aqui
             }
         }
     }
@@ -101,8 +135,8 @@ public class Cliente {
     private static void listar(List<Personagem> lista) {
         for (int i = 0; i < lista.size(); i++) {
             Personagem p = lista.get(i);
-            System.out.printf("[%d] (%s) %s (HP: %d) \n ATK: %d | DEF: %d | AGI: %d | MANA: %d\n",
-                i, p.getNome(), p.getDescricao(), p.getAtaque(), p.getDefesa(), p.getAgilidade(), p.getMana(), p.getVida());
+            System.out.printf("[%d] %s %s (HP: %d) \n   ATK: %d | DEF: %d | AGI: %d | MANA: %d\n\n",
+                i,p.getDescricao(), p.getNome(), p.getAtaque(), p.getDefesa(), p.getAgilidade(), p.getMana(), p.getVida());
         }
     }
 }

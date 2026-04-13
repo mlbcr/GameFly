@@ -1,6 +1,5 @@
 package codigo;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,13 +7,27 @@ public class FlyweightFactory {
     private static Map<String, PersonagemFlyweight> tipos = new HashMap<>();
 
     public static PersonagemFlyweight getPersonagem(String tipo) {
-        if (!tipos.containsKey(tipo.toLowerCase())) {
-            switch (tipo.toLowerCase()) {
-                case "guerreiro": tipos.put("guerreiro", new PersonagemFlyweight("Guerreiro", "tex_guer.png", "anim_esp", 50, 40, 20, 10)); break;
-                case "mago":      tipos.put("mago",      new PersonagemFlyweight("Mago", "tex_mag.png", "anim_caj", 30, 10, 30, 100)); break;
-                case "amazona":   tipos.put("amazona",   new PersonagemFlyweight("Amazona", "tex_ama.png", "anim_lan", 45, 25, 60, 20)); break;
+        String tipoChave = tipo.toLowerCase();
+
+        if (!tipos.containsKey(tipoChave)) {
+            
+            switch (tipoChave) {
+                case "guerreiro":
+                    tipos.put(tipoChave, new PersonagemFlyweight("Guerreiro", "tex_guer.png", "anim_espada", 50, 40, 20, 10));
+                    break;
+                case "mago":
+                    tipos.put(tipoChave, new PersonagemFlyweight("Mago", "tex_mago.png", "anim_cajado", 30, 10, 25, 100));
+                    break;
+                case "assassino":
+                    tipos.put(tipoChave, new PersonagemFlyweight("Assassino", "tex_assas.png", "anim_adaga", 60, 15, 80, 30));
+                    break;
+                case "paladino":
+                    tipos.put(tipoChave, new PersonagemFlyweight("Paladino", "tex_pala.png", "anim_martelo", 40, 60, 15, 50));
+                    break;
+                default:
+                    return null;
             }
         }
-        return tipos.get(tipo.toLowerCase());
+        return tipos.get(tipoChave);
     }
 }
