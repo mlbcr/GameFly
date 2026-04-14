@@ -7,11 +7,29 @@ public class EspadaFlamejante extends PersonagemDecorator {
     
     @Override
     public int getAtaque() {
-    	return decorado.getAtaque() + 10; 
+    	return super.getAtaque() + 10; 
     }
     
     @Override
     public String getDescricao() {
-    	return decorado.getDescricao() + " + Espada Flamejante"; 
+    	return super.getDescricao() + " + Espada Flamejante"; 
     }
+
+	@Override
+	public void defender(int defesaE) {
+		
+		decorado.defender(defesaE);
+	}
+	
+	public void manipMana(int qtd) {
+		
+		decorado.manipMana(qtd);
+		
+	}
+	
+	public void diminuiDefesa() {
+		
+		decorado.diminuiDefesa();
+		
+	}
 }

@@ -6,12 +6,35 @@ public class MantoSombrio extends PersonagemDecorator {
     }
     
     @Override
-    public int getMana() {
-    	return decorado.getMana() + 20; 
-    }
-    
-    @Override
     public String getDescricao() { 
-    	return decorado.getDescricao() + " + Manto Sombrio"; 
-    	}
+    	return super.getDescricao() + " + Manto Sombrio"; 
+    }
+
+	public void defender(int defesaE) {
+		
+		decorado.defender(defesaE);
+		
+	}
+	
+	public int getMana	() {
+		
+		return super.getMana() + 20; 
+	}
+	
+	public int getManaTotal() {
+		
+		return super.getManaTotal() + 20; 
+	}
+	
+	public void manipMana(int qtd) {
+		
+		decorado.manipMana(qtd);
+		
+	}
+	
+	public void diminuiDefesa() {
+		
+		decorado.diminuiDefesa();
+		
+	}
 }

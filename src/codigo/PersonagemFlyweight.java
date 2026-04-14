@@ -2,11 +2,24 @@ package codigo;
 
 public class PersonagemFlyweight {
     private String tipo, textura, animacao;
-    private int ataqueBase, defesaBase, agilidadeBase, manaBase;
+    private int id, vida, vidaTotal, ataqueBase, defesaBase, agilidadeBase, manaBase, manaTotal;
 
-    public PersonagemFlyweight(String tipo, String textura, String animacao, int at, int df, int ag, int mn) {
-        this.tipo = tipo; this.textura = textura; this.animacao = animacao;
+    public PersonagemFlyweight(int id, int vida, String tipo, String textura, String animacao, int at, int df, int ag, int mn) {
+        this.id = id; this.vida = vida; this.tipo = tipo; this.textura = textura; this.animacao = animacao;
         this.ataqueBase = at; this.defesaBase = df; this.agilidadeBase = ag; this.manaBase = mn;
+        this.vidaTotal = vida; this.manaTotal = mn;
+    }
+    
+    public int getId() {
+    	return id;
+    }
+    
+    public int getVida() {
+    	return vida;
+    }
+    
+    public int getVidaTotal() {
+    	return vidaTotal;
     }
 
     public String getTipo() { 
@@ -23,6 +36,11 @@ public class PersonagemFlyweight {
     	return agilidadeBase; 
     }
     public int getMana() {
-    	return manaBase; 
+    	return manaBase;
     }
+    
+    public int getManaTotal() {
+    	return manaTotal;
+    }
+    
 }

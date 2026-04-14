@@ -1,6 +1,7 @@
 package codigo;
 
 public interface Personagem {
+	int getId();
     String getNome();
     String getDescricao();
     int getAtaque();
@@ -8,5 +9,11 @@ public interface Personagem {
     int getAgilidade();
     int getMana();
     int getVida();
-    void setVida(int vida);
+    int getManaTotal();
+    int getVidaTotal();
+    void setVida(int dano, boolean isDano);
+    void defender(int defesaE);
+    void manipMana(int qtd);
+    void diminuiDefesa();
+
 }

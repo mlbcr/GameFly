@@ -7,11 +7,31 @@ public class ArmaduraPedra extends PersonagemDecorator {
     
     @Override
     public int getDefesa() { 
-    	return decorado.getDefesa() + 10;
+    	return super.getDefesa() + 10;
     }
     
     @Override
     public String getDescricao() {
-    	return decorado.getDescricao() + " + Armadura de Pedra"; 
+    	return super.getDescricao() + " + Armadura de Pedra"; 
     	}
+
+	public void defender(int defesaE) {
+		
+		decorado.defender(defesaE);
+		
+	}
+
+	public void manipMana(int qtd) {
+		
+		decorado.manipMana(qtd);
+		
+	}
+	
+	public void diminuiDefesa() {
+		
+		decorado.diminuiDefesa();
+		
+	}
+
 }
+
