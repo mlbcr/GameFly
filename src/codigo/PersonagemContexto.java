@@ -3,13 +3,18 @@ package codigo;
 // CONTEXTO DO FLYWEIGHT
 
 public class PersonagemContexto implements Personagem {
+	// Esses são os atributos que fazem parte do estado extrínseco
     private String nome;
     private int vida, vidaTotal, mana, manaTotal, ataque, defesa, agilidade;
+    
+    // Essa é a referência ao objeto compartilhado do estado intrínseco (o flyweight)
     private PersonagemFlyweight flyweight;
+    
     private boolean usouDefesa = false;
-
+    
     public PersonagemContexto(String nome, PersonagemFlyweight flyweight) {
         this.nome = nome;
+        // Inicia os atributos individuais com base nos valores fixos do Flyweight
         this.ataque = flyweight.getAtaque();
         this.agilidade = flyweight.getAgilidade();
         this.flyweight = flyweight;
@@ -29,8 +34,11 @@ public class PersonagemContexto implements Personagem {
     }
    
     public String getDescricao() {
+    	// Busca o tipo do personagem diretamente do objeto compartilhado
     	return flyweight.getTipo(); 
     }
+    // Esses getters retornam os atributos atuais do personagem
+    // Eles permitem que o Mediator e o Decorator consultem os valores dos atributos
     public int getAtaque() {
     	return this.ataque; 
     }

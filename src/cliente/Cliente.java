@@ -28,7 +28,7 @@ public class Cliente {
 	
     public static void main(String[] args) {
         Scanner leitor = new Scanner(System.in);
-        List<Personagem> arena = new ArrayList<>(); //
+        List<Personagem> arena = new ArrayList<>(); // Lista que armazena todos os personagens criados
         ArenaMediator mediador = new ArenaMediator(); // Iniciando a classe ArenaMediator aqui
         
         System.out.println("==============================================");
@@ -48,27 +48,27 @@ public class Cliente {
 
             switch (opcao) {
                 case 1:
-                	
+                	// Chama a lógica de criação com Flyweight
                 	pausar(300);
                 	
-                	criacaoPersonagem(arena);
+                	criacaoPersonagem(arena); 
                 	
                 	pausar(300);
                 	
 	                break;
 
                 case 2:
-                	
+                	// Abre o menu de equipamentos para testar o Decorator
                 	pausar(300);
                     
-                	arenaEquipar(arena);
+                	arenaEquipar(arena); 
                 	
                 	pausar(300);
                 	
                     break;
 
                 case 3:
-                	
+                	// Mostra os personagens e seus status atuais
                 	pausar(200);
                 	
                     if (arena.isEmpty()) {
@@ -144,6 +144,7 @@ public class Cliente {
         String escolha = leitor.next();
         t = escolha;
         
+        // If para transformar o que foi escrito para o tipo de personagem, seja se a pessoa escolheu por número ou pelo nome
         if (escolha.equals("1") || escolha.equalsIgnoreCase("guerreiro")) t = "guerreiro";
         else if (escolha.equals("2") || escolha.equalsIgnoreCase("mago")) t = "mago";
         else if (escolha.equals("3") || escolha.equalsIgnoreCase("assassino")) t = "assassino";
@@ -181,14 +182,14 @@ public class Cliente {
             if (id == -1) break; 
 
             if (id < 0 || id >= arena.size()) {
-                System.out.println("[!] Índice inválido. Tente novamente.");
+                System.out.println("[!] Índice inválido.");
                 continue; 
             }
             
             pausar(500);
 
             while (true) {
-                System.out.println("Drops disponíveis:\n1. Botas (+5 AGI)\n2. Armadura (+10 DEF)\n3. Espada (+10 ATK)\n4. Manto (+20 MANA)\n0. Visualizar outro personagem.");
+                System.out.println("Drops disponíveis:\n1. Botas (+5 AGI)\n2. Armadura (+10 DEF)\n3. Espada (+10 ATK)\n4. Manto (+20 MANA)\n0. Voltar.");
                 System.out.print("Escolha o item: ");
                 item = leitor.nextInt();
 
@@ -199,6 +200,13 @@ public class Cliente {
                 boolean jaEquipado = false;
                 String nomeItem = "";
 
+                int atkAnterior = p.getAtaque();
+                int defAnterior = p.getDefesa();
+                int agiAnterior = p.getAgilidade();
+                int manaAnterior = p.getManaTotal();
+                
+                // O personagem 'p' é envolvido por uma nova classe decoradora que adiciona comportamento
+                // sem alterar a classe concreta original
                 if (item == 1) {
                     nomeItem = "Botas Ágeis";
                     if (descricaoAtual.contains(nomeItem)) jaEquipado = true;
@@ -206,7 +214,6 @@ public class Cliente {
                     	p = new BotasAgeis(p);
                     	arena.set(id, p); 
                     }
-                    
                 } 
                 else if (item == 2) {
                     nomeItem = "Armadura de Pedra";
@@ -236,18 +243,26 @@ public class Cliente {
                 if (jaEquipado) {
                     System.out.println("[AVISO] " + p.getNome() + " já possui: " + nomeItem);
                 } else if (!nomeItem.equals("")) {
-                    System.out.println(p.getNome() + " equipou " + nomeItem + " com sucesso!");
+                	// Teste do padrão Decorator
+                    System.out.println("Item: " + nomeItem + " aplicado em " + p.getNome());
+                    
+                    // Mostrar modificação do atributo que foi modificado
+                    if (atkAnterior != p.getAtaque()) System.out.println("Ataque: " + atkAnterior + " -> " + p.getAtaque());
+                    if (defAnterior != p.getDefesa()) System.out.println("Defesa: " + defAnterior + " -> " + p.getDefesa());
+                    if (agiAnterior != p.getAgilidade()) System.out.println("Agilidade: " + agiAnterior + " -> " + p.getAgilidade());
+                    if (manaAnterior != p.getManaTotal()) System.out.println("Mana Max: " + manaAnterior + " -> " + p.getManaTotal());
+                    
+                    System.out.println("Resultado: Decorator acumulado com sucesso!");
                 }
                 
                 pausar(900);
             }
-            
             pausar(500);
         }
-        
         pausar(1000);
     }
-
+    
+    // Apenas percorre a lista e imprime os dados de cada personagem na arena
     private static void listar(List<Personagem> lista) {
         for (int i = 0; i < lista.size(); i++) {
             System.out.println("[" + i + "] - " + lista.get(i).toString() + "\n");
